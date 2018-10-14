@@ -100,3 +100,16 @@ The Spring Framework is released under version 2.0 of the [Apache License][].
 [The Spring Blog]: http://spring.io/blog/
 [news feed]: http://spring.io/blog/category/news
 [Apache License]: http://www.apache.org/licenses/LICENSE-2.0
+
+
+构建步骤：
+
+1.git clone下spring的源码
+
+2.下载gradle进行配置
+
+3.导入到idea中
+
+4.build整个项目,也可以只build主要的模块,比如spring-beans开始
+
+5.创建自己的module,并在build.gradle中引入基本的spring-beans进行编译测试
