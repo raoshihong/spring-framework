@@ -46,3 +46,7 @@ and releases are announced via our [news feed](http://spring.io/blog/category/ne
 
 The Spring Framework is released under version 2.0 of the
 [Apache License](http://www.apache.org/licenses/LICENSE-2.0).
+
+master分支构建
+1.去除docs.gradle任务
+2.去除checkstyle插件

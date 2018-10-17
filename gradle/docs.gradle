@@ -136,36 +136,36 @@ task docsZip(type: Zip, dependsOn: ['api', 'asciidoctor', 'dokka']) {
 		into "kdoc-api"
 	}
 }
+//
+//task schemaZip(type: Zip) {
+//	group = "Distribution"
+//	baseName = "spring-framework"
+//	classifier = "schema"
+//	description = "Builds -${classifier} archive containing all " +
+//			"XSDs for deployment at http://springframework.org/schema."
+//	duplicatesStrategy 'exclude'
+//	moduleProjects.each { subproject ->
+//		def Properties schemas = new Properties();
+//
+//		subproject.sourceSets.main.resources.find {
+//			it.path.endsWith("META-INF/spring.schemas")
+//		}?.withInputStream { schemas.load(it) }
+//
+//		for (def key : schemas.keySet()) {
+//			def shortName = key.replaceAll(/http.*schema.(.*).spring-.*/, '$1')
+//			assert shortName != key
+//			File xsdFile = subproject.sourceSets.main.resources.find {
+//				it.path.endsWith(schemas.get(key))
+//			}
+//			assert xsdFile != null
+//			into (shortName) {
+//				from xsdFile.path
+//			}
+//		}
+//	}
+//}
 
-task schemaZip(type: Zip) {
-	group = "Distribution"
-	baseName = "spring-framework"
-	classifier = "schema"
-	description = "Builds -${classifier} archive containing all " +
-			"XSDs for deployment at http://springframework.org/schema."
-	duplicatesStrategy 'exclude'
-	moduleProjects.each { subproject ->
-		def Properties schemas = new Properties();
-
-		subproject.sourceSets.main.resources.find {
-			it.path.endsWith("META-INF/spring.schemas")
-		}?.withInputStream { schemas.load(it) }
-
-		for (def key : schemas.keySet()) {
-			def shortName = key.replaceAll(/http.*schema.(.*).spring-.*/, '$1')
-			assert shortName != key
-			File xsdFile = subproject.sourceSets.main.resources.find {
-				it.path.endsWith(schemas.get(key))
-			}
-			assert xsdFile != null
-			into (shortName) {
-				from xsdFile.path
-			}
-		}
-	}
-}
-
-task distZip(type: Zip, dependsOn: [docsZip, schemaZip]) {
+task distZip(type: Zip, dependsOn: [docsZip]) {
 
 	group = "Distribution"
 	baseName = "spring-framework"
@@ -187,9 +187,9 @@ task distZip(type: Zip, dependsOn: [docsZip, schemaZip]) {
 		into "${baseDir}/docs"
 	}
 
-	from(zipTree(schemaZip.archivePath)) {
-		into "${baseDir}/schema"
-	}
+//	from(zipTree(schemaZip.archivePath)) {
+//		into "${baseDir}/schema"
+//	}
 
 	moduleProjects.each { subproject ->
 		into ("${baseDir}/libs") {
