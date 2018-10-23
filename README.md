@@ -113,3 +113,5 @@ The Spring Framework is released under version 2.0 of the [Apache License][].
 4.build整个项目,也可以只build主要的模块,比如spring-beans开始
 
 5.创建自己的module,并在build.gradle中引入基本的spring-beans进行编译测试
+
+最基础的包就是spring-beans了，所以先从spring-beans开始

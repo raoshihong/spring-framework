@@ -64,6 +64,7 @@ import org.springframework.core.ResolvableType;
  *
  * <p>Bean factory implementations should support the standard bean lifecycle interfaces
  * as far as possible. The full set of initialization methods and their standard order is:
+ * Bean工厂的实现应该支持标准的bean的生命周期接口，以下是整个spring容器实例化一个bean时的生命周期的相关接口，调用顺序如下
  * <ol>
  * <li>BeanNameAware's {@code setBeanName}
  * <li>BeanClassLoaderAware's {@code setBeanClassLoader}
@@ -87,10 +88,11 @@ import org.springframework.core.ResolvableType;
  * </ol>
  *
  * <p>On shutdown of a bean factory, the following lifecycle methods apply:
+ * 一个shutdown的bean,应该试下以下生命周期的方法
  * <ol>
  * <li>{@code postProcessBeforeDestruction} methods of DestructionAwareBeanPostProcessors
- * <li>DisposableBean's {@code destroy}
- * <li>a custom destroy-method definition
+ * <li>DisposableBean's {@code destroy}  实现DisposableBean接口的destroy方法
+ * <li>a custom destroy-method definition  或者是通过自定义xml中的destory-method方法
  * </ol>
  *
  * @author Rod Johnson
@@ -111,6 +113,9 @@ import org.springframework.core.ResolvableType;
  * @see org.springframework.beans.factory.config.BeanPostProcessor#postProcessAfterInitialization
  * @see DisposableBean#destroy
  * @see org.springframework.beans.factory.support.RootBeanDefinition#getDestroyMethodName
+ *
+ * 定义获取bean及bean的各种属性
+ *
  */
 public interface BeanFactory {
 

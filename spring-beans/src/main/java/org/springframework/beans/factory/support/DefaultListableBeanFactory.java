@@ -107,12 +107,18 @@ import org.springframework.util.StringUtils;
  * @author Phillip Webb
  * @author Stephane Nicoll
  * @since 16 April 2001
- * @see #registerBeanDefinition
- * @see #addBeanPostProcessor
- * @see #getBean
- * @see #resolveDependency
+ * @see #registerBeanDefinition  注册bean
+ * @see #addBeanPostProcessor  添加bean的后置处理
+ * @see #getBean	获取bean
+ * @see #resolveDependency	处理bean之间的依赖
  */
 @SuppressWarnings("serial")
+
+/**
+ * 整个bean加载的核心部分
+ * 包括bean的别名
+ */
+
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory
 		implements ConfigurableListableBeanFactory, BeanDefinitionRegistry, Serializable {
 

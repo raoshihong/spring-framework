@@ -38,6 +38,7 @@ import org.springframework.util.ResourceUtils;
  *
  * @author Juergen Hoeller
  * @since 28.12.2003
+ * 做了最基本的处理，包括文件是否存在，相关异常，这个类就是一个适配器泪
  */
 public abstract class AbstractResource implements Resource {
 

@@ -29,17 +29,20 @@ import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
  * interface to be implemented by bean factories that are capable of
  * autowiring, provided that they want to expose this functionality for
  * existing bean instances.
+ * 扩展了BaenFactory这个接口，实现了自动装配,并为已存在的实例提供想要的功能
  *
  * <p>This subinterface of BeanFactory is not meant to be used in normal
  * application code: stick to {@link org.springframework.beans.factory.BeanFactory}
  * or {@link org.springframework.beans.factory.ListableBeanFactory} for
  * typical use cases.
+ * BeanFactory的这个子接口并不适用于普通的应用程序代码：坚持{@link org.springframework.beans.factory.BeanFactory}或{@link org.springframework.beans.factory.ListableBeanFactory}用于典型用例
  *
  * <p>Integration code for other frameworks can leverage this interface to
  * wire and populate existing bean instances that Spring does not control
  * the lifecycle of. This is particularly useful for WebWork Actions and
  * Tapestry Page objects, for example.
- *
+ * 其他框架的集成代码可以利用此接口来连接和填充Spring无法控制其生命周期的现有Bean实例。 这对WebWork Actions和Tapestry Page对象特别有用 ，例如：
+ * 就是说其他的框架可以使用这个接口来创建相关的bean
  * <p>Note that this interface is not implemented by
  * {@link org.springframework.context.ApplicationContext} facades,
  * as it is hardly ever used by application code. That said, it is available
@@ -57,6 +60,7 @@ import org.springframework.beans.factory.NoUniqueBeanDefinitionException;
  * @see org.springframework.beans.factory.BeanFactoryAware
  * @see org.springframework.beans.factory.config.ConfigurableListableBeanFactory
  * @see org.springframework.context.ApplicationContext#getAutowireCapableBeanFactory()
+ * 提供创建bean、自动注入、初始化以及应用bean的后处理器
  */
 public interface AutowireCapableBeanFactory extends BeanFactory {
 
@@ -75,6 +79,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	 * @see #createBean
 	 * @see #autowire
 	 * @see #autowireBeanProperties
+	 * 通过名称自动装配
 	 */
 	int AUTOWIRE_BY_NAME = 1;
 
@@ -84,6 +89,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	 * @see #createBean
 	 * @see #autowire
 	 * @see #autowireBeanProperties
+	 * 通过类型自动装配
 	 */
 	int AUTOWIRE_BY_TYPE = 2;
 
@@ -122,6 +128,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	 * @param beanClass the class of the bean to create
 	 * @return the new bean instance
 	 * @throws BeansException if instantiation or wiring failed
+	 * 创建一个bean
 	 */
 	<T> T createBean(Class<T> beanClass) throws BeansException;
 
@@ -134,6 +141,7 @@ public interface AutowireCapableBeanFactory extends BeanFactory {
 	 * use {@link #autowireBeanProperties} for those purposes.
 	 * @param existingBean the existing bean instance
 	 * @throws BeansException if wiring failed
+	 * 自动装配一个已存在的bean
 	 */
 	void autowireBean(Object existingBean) throws BeansException;
 

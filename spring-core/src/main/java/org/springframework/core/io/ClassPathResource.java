@@ -44,6 +44,7 @@ public class ClassPathResource extends AbstractFileResolvingResource {
 
 	private final String path;
 
+	//传递classLoader是为了通过ClassLoader.getResourceAsStream方法来获取inputstream流
 	private ClassLoader classLoader;
 
 	private Class<?> clazz;
@@ -152,6 +153,7 @@ public class ClassPathResource extends AbstractFileResolvingResource {
 	}
 
 	/**
+	 * 这个是最关键的方法,在读取文件的时候，都是通过实现这个方法,通过不同的读取文件的方式返回输入流
 	 * This implementation opens an InputStream for the given class path resource.
 	 * @see java.lang.ClassLoader#getResourceAsStream(String)
 	 * @see java.lang.Class#getResourceAsStream(String)
