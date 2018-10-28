@@ -29,10 +29,17 @@ import org.springframework.core.ResolvableType;
  * preload all their bean definitions (such as XML-based factories) may implement
  * this interface.
  *
+ * {@link BeanFactory}接口的扩展由bean工厂实现，可以枚举所有bean实例，而不是按客户端的请求逐个尝试按名称查找bean。
+ * 预加载所有bean定义（例如基于XML的工厂）的BeanFactory实现可以实现此接口。从这句话可以看出，这个接口是用来处理预加载所有的bean
+ *
  * <p>If this is a {@link HierarchicalBeanFactory}, the return values will <i>not</i>
  * take any BeanFactory hierarchy into account, but will relate only to the beans
  * defined in the current factory. Use the {@link BeanFactoryUtils} helper class
  * to consider beans in ancestor factories too.
+ *
+ * 如果这是{@link HierarchicalBeanFactory}，则返回值不会考虑任何BeanFactory层次结构，而只涉及当前工厂中定义的bean。
+ * 使用{@link BeanFactoryUtils}帮助程序类来考虑祖先工厂中的bean。
+ * HierarchicalBeanFactory 提供了对ParentBeanFactory的支持,所以不用考虑层次结构
  *
  * <p>The methods in this interface will just respect bean definitions of this factory.
  * They will ignore any singleton beans that have been registered by other means like
@@ -44,15 +51,31 @@ import org.springframework.core.ResolvableType;
  * scenarios, all beans will be defined by external bean definitions anyway, so most
  * applications don't need to worry about this differentiation.
  *
+ * 此接口中的方法将仅考虑此工厂的bean定义。 他们将忽略已经通过{@link {@code registerSingleton}方法等其他方式注册的任何单例bean，
+ * 但{@code getBeanNamesOfType}和{@code getBeansOfType}除外，它们也会检查这些手动注册的单例。
+ * 当然，BeanFactory的{@code getBean}也允许透明访问这些特殊的bean。
+ * 但是，在典型的场景中，所有bean都将由外部bean定义，因此大多数应用程序不需要担心这种区别。
+ *
  * <p><b>NOTE:</b> With the exception of {@code getBeanDefinitionCount}
  * and {@code containsBeanDefinition}, the methods in this interface
  * are not designed for frequent invocation. Implementations may be slow.
+ *
+ *除了{@code getBeanDefinitionCount}和{@code containsBeanDefinition}之外，
+ * 此接口中的方法不是为频繁调用而设计的。 实施可能很慢。
  *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 16 April 2001
  * @see HierarchicalBeanFactory
  * @see BeanFactoryUtils
+ *
+ * 综合上面所述：这个接口是用来定义预加载所有bean的定义的,可以根据相关条件获取bean的配置清单，所以这个接口实际就是Bean定义的清单接口
+ * 因为是预加载了所有的bean,所以可以获取以下配置清单
+ * 1.获取加载的bean的个数
+ * 2.判断是否加载了指定BeanName的bean的定义
+ * 3.获取所有定义的bean的name
+ * 4.获取指定类型的beanName
+ * 5.获取带有指定Annotation的beanName
  */
 public interface ListableBeanFactory extends BeanFactory {
 
@@ -64,6 +87,7 @@ public interface ListableBeanFactory extends BeanFactory {
 	 * @param beanName the name of the bean to look for
 	 * @return if this bean factory contains a bean definition with the given name
 	 * @see #containsBean
+	 * 判断是否加载了指定BeanName的bean的定义
 	 */
 	boolean containsBeanDefinition(String beanName);
 
@@ -73,6 +97,7 @@ public interface ListableBeanFactory extends BeanFactory {
 	 * and ignores any singleton beans that have been registered by
 	 * other means than bean definitions.
 	 * @return the number of beans defined in the factory
+	 * 获取加载的bean的个数
 	 */
 	int getBeanDefinitionCount();
 
@@ -83,6 +108,7 @@ public interface ListableBeanFactory extends BeanFactory {
 	 * other means than bean definitions.
 	 * @return the names of all beans defined in this factory,
 	 * or an empty array if none defined
+	 * 获取所有定义的bean的name
 	 */
 	String[] getBeanDefinitionNames();
 
@@ -112,6 +138,7 @@ public interface ListableBeanFactory extends BeanFactory {
 	 * @see #isTypeMatch(String, ResolvableType)
 	 * @see FactoryBean#getObjectType
 	 * @see BeanFactoryUtils#beanNamesForTypeIncludingAncestors(ListableBeanFactory, ResolvableType)
+	 * 获取指定类型的beanName
 	 */
 	String[] getBeanNamesForType(ResolvableType type);
 
@@ -139,6 +166,7 @@ public interface ListableBeanFactory extends BeanFactory {
 	 * the given object type (including subclasses), or an empty array if none
 	 * @see FactoryBean#getObjectType
 	 * @see BeanFactoryUtils#beanNamesForTypeIncludingAncestors(ListableBeanFactory, Class)
+	 * 获取指定类型的beanName
 	 */
 	String[] getBeanNamesForType(Class<?> type);
 
@@ -247,6 +275,7 @@ public interface ListableBeanFactory extends BeanFactory {
 	 * @param annotationType the type of annotation to look for
 	 * @return the names of all matching beans
 	 * @since 4.0
+	 * 获取带有指定Annotation的beanName
 	 */
 	String[] getBeanNamesForAnnotation(Class<? extends Annotation> annotationType);
 

@@ -37,10 +37,14 @@ import org.springframework.util.StringValueResolver;
  */
 public class SimpleAliasRegistry implements AliasRegistry {
 
-	/** Map from alias to canonical name */
-	private final Map<String, String> aliasMap = new ConcurrentHashMap<String, String>(16);
+	/** Map from alias to canonical name
+	 * 从别名映射到规范名称
+	 * 数据格式：alias:name   所以同一个name可以有多个别名
+	 * */
+	private final Map<String, String> aliasMap = new ConcurrentHashMap<String, String>(16);//map的初始化大小最好是2^n次幂
 
 
+	//注册别名
 	@Override
 	public void registerAlias(String name, String alias) {
 		Assert.hasText(name, "'name' must not be empty");
@@ -50,17 +54,20 @@ public class SimpleAliasRegistry implements AliasRegistry {
 				this.aliasMap.remove(alias);
 			}
 			else {
+				//根据别名获取注册的name,这里的name对应唯一的bean
 				String registeredName = this.aliasMap.get(alias);
-				if (registeredName != null) {
-					if (registeredName.equals(name)) {
+				if (registeredName != null) {//表示已经注册过别名了
+					if (registeredName.equals(name)) {//如果已经注册的别名对应的name相等,则不需要重复注册
 						// An existing alias - no need to re-register
 						return;
 					}
-					if (!allowAliasOverriding()) {
+					//同一个别名,注册的name不一样,则判断是否可以覆盖,如果不可以,则抛出异常
+					if (!allowAliasOverriding()) {//是否允许别名覆盖，默认为允许覆盖
 						throw new IllegalStateException("Cannot register alias '" + alias + "' for name '" +
 								name + "': It is already registered for name '" + registeredName + "'.");
 					}
 				}
+
 				checkForAliasCircle(name, alias);
 				this.aliasMap.put(alias, name);
 			}
@@ -104,11 +111,21 @@ public class SimpleAliasRegistry implements AliasRegistry {
 		}
 	}
 
+	/**
+	 * 判断name是不是一个别名
+	 * @param name
+	 * @return
+	 */
 	@Override
 	public boolean isAlias(String name) {
 		return this.aliasMap.containsKey(name);
 	}
 
+	/**
+	 * 通过name获取映射的所有别名
+	 * @param name
+	 * @return
+	 */
 	@Override
 	public String[] getAliases(String name) {
 		List<String> result = new ArrayList<String>();

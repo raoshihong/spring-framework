@@ -18,21 +18,28 @@ package org.springframework.beans.factory;
 
 /**
  * Sub-interface implemented by bean factories that can be part
- * of a hierarchy.
+ *  * of a hierarchy.
+ *
+ *  由bean工厂实现的子接口，可以是层次结构的一部分。
  *
  * <p>The corresponding {@code setParentBeanFactory} method for bean
  * factories that allow setting the parent in a configurable
  * fashion can be found in the ConfigurableBeanFactory interface.
  *
+ * 可以在ConfigurableBeanFactory接口中找到允许以可配置方式设置父级的bean工厂的相应{@code setParentBeanFactory}方法。
+ *
  * @author Rod Johnson
  * @author Juergen Hoeller
  * @since 07.07.2003
  * @see org.springframework.beans.factory.config.ConfigurableBeanFactory#setParentBeanFactory
+ *
+ * 分级BeanFactory,在BeanFactory的基础上增加了对ParentBeanFactory的支持
  */
 public interface HierarchicalBeanFactory extends BeanFactory {
 
 	/**
 	 * Return the parent bean factory, or {@code null} if there is none.
+	 * 返回父BeanFactory，如果没有则返回null
 	 */
 	BeanFactory getParentBeanFactory();
 

@@ -64,7 +64,7 @@ import org.springframework.core.ResolvableType;
  *
  * <p>Bean factory implementations should support the standard bean lifecycle interfaces
  * as far as possible. The full set of initialization methods and their standard order is:
- * Bean工厂的实现应该支持标准的bean的生命周期接口，以下是整个spring容器实例化一个bean时的生命周期的相关接口，调用顺序如下
+ * Bean工厂实现应尽可能支持标准bean生命周期接口。 完整的初始化方法及其标准顺序是
  * <ol>
  * <li>BeanNameAware's {@code setBeanName}
  * <li>BeanClassLoaderAware's {@code setBeanClassLoader}

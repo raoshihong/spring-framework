@@ -116,7 +116,7 @@ import org.springframework.util.StringUtils;
 
 /**
  * 整个bean加载的核心部分
- * 包括bean的别名
+ * 包括bean的初始化，bean的配置，bean的自动装配bean的清单里列表等
  */
 
 public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory

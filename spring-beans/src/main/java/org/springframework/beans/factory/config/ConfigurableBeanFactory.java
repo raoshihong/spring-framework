@@ -35,17 +35,35 @@ import org.springframework.util.StringValueResolver;
  * client methods in the {@link org.springframework.beans.factory.BeanFactory}
  * interface.
  *
+ * 配置化接口由大部分的bean工厂来实现此接口。
+ * 在@link org.springframework.beans.factory.BeanFactory}接口提供的方法外，还提供了可配置化的Bean工厂
+ *
  * <p>This bean factory interface is not meant to be used in normal application
  * code: Stick to {@link org.springframework.beans.factory.BeanFactory} or
  * {@link org.springframework.beans.factory.ListableBeanFactory} for typical
  * needs. This extended interface is just meant to allow for framework-internal
  * plug'n'play and for special access to bean factory configuration methods.
  *
+ * 此bean工厂接口不适用于正常的应用程序代码：坚持{@link org.springframework.beans.factory.BeanFactory}
+ * 或{@link org.springframework.beans.factory.ListableBeanFactory}以满足典型需求。
+ * 这个扩展接口只是为了允许框架内部的即插即用和对bean工厂配置方法的特殊访问。
+ *
  * @author Juergen Hoeller
  * @since 03.11.2003
  * @see org.springframework.beans.factory.BeanFactory
  * @see org.springframework.beans.factory.ListableBeanFactory
  * @see ConfigurableListableBeanFactory
+ *
+ * 这个接口用来提供对bean的配置
+ * 有以下配置：
+ * 1.单利或者多实例的配置，如是否设置为单利scope，如果是则实例化bean为单利
+ * 2.spring EL表达式解析器的设置
+ * 3.父bean工厂的设置
+ * 4.bean的别名的注册配置
+ * 5.类加载器的配置
+ * 6.bean的后置处理器的配置
+ * 7.bean的scope设置
+ * 8.bean的destory设置
  */
 public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, SingletonBeanRegistry {
 
@@ -53,6 +71,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 * Scope identifier for the standard singleton scope: "singleton".
 	 * Custom scopes can be added via {@code registerScope}.
 	 * @see #registerScope
+	 * 注册为单利的scope标识
 	 */
 	String SCOPE_SINGLETON = "singleton";
 
@@ -68,6 +87,9 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 * Set the parent of this bean factory.
 	 * <p>Note that the parent cannot be changed: It should only be set outside
 	 * a constructor if it isn't available at the time of factory instantiation.
+	 *
+	 * 设置此bean工厂的父级。 请注意，不能更改父级：如果在工厂实例化时不可用，则只应在构造函数外部设置父级。
+	 *
 	 * @param parentBeanFactory the parent BeanFactory
 	 * @throws IllegalStateException if this factory is already associated with
 	 * a parent BeanFactory
@@ -130,7 +152,13 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 * <p>There is no expression support active in a BeanFactory by default.
 	 * An ApplicationContext will typically set a standard expression strategy
 	 * here, supporting "#{...}" expressions in a Unified EL compatible style.
+	 *
+	 * 为bean定义值中的表达式指定解析策略。 默认情况下，BeanFactory中没有活动表达式支持。
+	 * ApplicationContext通常会在此处设置标准表达式策略，支持Unified EL兼容样式中的“＃{...}”表达式。
+	 *
 	 * @since 3.0
+	 *
+	 * 设置spring EL表达式的处理器
 	 */
 	void setBeanExpressionResolver(BeanExpressionResolver resolver);
 
@@ -190,6 +218,9 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 * @see #addPropertyEditorRegistrar
 	 * @see #registerCustomEditor
 	 * @since 2.5
+	 *
+	 * 设置类型转换器
+	 *
 	 */
 	void setTypeConverter(TypeConverter typeConverter);
 
@@ -232,7 +263,14 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 * {@link org.springframework.core.Ordered} interface will be ignored. Note
 	 * that autodetected post-processors (e.g. as beans in an ApplicationContext)
 	 * will always be applied after programmatically registered ones.
+	 *
+	 * 添加一个新的BeanPostProcessor，它将应用于此工厂创建的bean。 在工厂配置期间调用。
+	 * 注意：此处提交的后处理器将按注册顺序应用; 通过实现{@link org.springframework.core.Ordered}接口表示的
+	 * 任何排序语义都将被忽略。
+	 * 请注意，自动检测的后处理器（例如，作为ApplicationContext中的bean）将始终在以编程方式注册后应用。
+	 *
 	 * @param beanPostProcessor the post-processor to register
+	 *	添加一个bean的后置处理器
 	 */
 	void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
 
@@ -243,6 +281,9 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 
 	/**
 	 * Register the given scope, backed by the given Scope implementation.
+	 *
+	 * 在指定的scope范围内注册指定scopeName的bean
+	 *
 	 * @param scopeName the scope identifier
 	 * @param scope the backing Scope implementation
 	 */
@@ -293,6 +334,8 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 	 * @param beanName the canonical name of the target bean
 	 * @param alias the alias to be registered for the bean
 	 * @throws BeanDefinitionStoreException if the alias is already in use
+	 *
+	 * 配置一个bean的别名
 	 */
 	void registerAlias(String beanName, String alias) throws BeanDefinitionStoreException;
 
