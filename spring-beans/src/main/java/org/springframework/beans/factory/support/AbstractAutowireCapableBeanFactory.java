@@ -84,6 +84,9 @@ import org.springframework.util.StringUtils;
  * Implements the {@link org.springframework.beans.factory.config.AutowireCapableBeanFactory}
  * interface in addition to AbstractBeanFactory's {@link #createBean} method.
  *
+ * 抽象bean工厂超类，它实现了默认的bean创建，具有{@link RootBeanDefinition}类指定的全部功能。
+ * 除了AbstractBeanFactory的{@link #createBean}方法之外，还实现了{@link org.springframework.beans.factory.config.AutowireCapableBeanFactory}接口。
+ *
  * <p>Provides bean creation (with constructor resolution), property population,
  * wiring (including autowiring), and initialization. Handles runtime bean
  * references, resolves managed collections, calls initialization methods, etc.

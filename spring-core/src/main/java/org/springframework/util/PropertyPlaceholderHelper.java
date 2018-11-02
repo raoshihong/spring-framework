@@ -130,7 +130,8 @@ public class PropertyPlaceholderHelper {
 			String value, PlaceholderResolver placeholderResolver, Set<String> visitedPlaceholders) {
 
 		StringBuilder result = new StringBuilder(value);
-
+		//value 可能是${name:sss}的形式
+		//placeholderPrefix 为${
 		int startIndex = value.indexOf(this.placeholderPrefix);
 		while (startIndex != -1) {
 			int endIndex = findPlaceholderEndIndex(result, startIndex);
@@ -146,10 +147,14 @@ public class PropertyPlaceholderHelper {
 				// Now obtain the value for the fully resolved key...
 				String propVal = placeholderResolver.resolvePlaceholder(placeholder);
 				if (propVal == null && this.valueSeparator != null) {
+					//valueSeparator 为:
 					int separatorIndex = placeholder.indexOf(this.valueSeparator);
 					if (separatorIndex != -1) {
+						//获取当前的name
 						String actualPlaceholder = placeholder.substring(0, separatorIndex);
+						//获取默认值
 						String defaultValue = placeholder.substring(separatorIndex + this.valueSeparator.length());
+						//从values中获取该name对应的value,即${name}的值
 						propVal = placeholderResolver.resolvePlaceholder(actualPlaceholder);
 						if (propVal == null) {
 							propVal = defaultValue;
@@ -160,6 +165,7 @@ public class PropertyPlaceholderHelper {
 					// Recursive invocation, parsing placeholders contained in the
 					// previously resolved placeholder value.
 					propVal = parseStringValue(propVal, placeholderResolver, visitedPlaceholders);
+					//startIndex 为${的开始位置,endIndex为}的结束位置,
 					result.replace(startIndex, endIndex + this.placeholderSuffix.length(), propVal);
 					if (logger.isTraceEnabled()) {
 						logger.trace("Resolved placeholder '" + placeholder + "'");

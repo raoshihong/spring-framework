@@ -25,6 +25,8 @@ import org.springframework.core.AttributeAccessor;
  * constructor argument values, and further information supplied by
  * concrete implementations.
  *
+ * BeanDefinition描述了一个bean实例，它具有属性值，构造函数参数值以及具体实现提供的更多信息。
+ *
  * <p>This is just a minimal interface: The main intention is to allow a
  * {@link BeanFactoryPostProcessor} such as {@link PropertyPlaceholderConfigurer}
  * to introspect and modify property values and other bean metadata.

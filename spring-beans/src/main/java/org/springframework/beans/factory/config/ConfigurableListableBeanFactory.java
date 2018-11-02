@@ -53,6 +53,7 @@ public interface ConfigurableListableBeanFactory
 	/**
 	 * Ignore the given dependency type for autowiring:
 	 * for example, String. Default is none.
+	 * 忽略给定的自动装配依赖类型
 	 * @param type the dependency type to ignore
 	 */
 	void ignoreDependencyType(Class<?> type);
@@ -91,6 +92,16 @@ public interface ConfigurableListableBeanFactory
 	 * @param autowiredValue the corresponding autowired value. This may also be an
 	 * implementation of the {@link org.springframework.beans.factory.ObjectFactory}
 	 * interface, which allows for lazy resolution of the actual target value.
+	 *
+	 * 使用相应的自动装配值注册特殊依赖关系类型。
+	 * 这适用于应该是可自动操作但在工厂中未定义为bean的工厂/上下文引用：
+	 * 例如 ApplicationContext类型的依赖关系解析为bean所在的ApplicationContext实例。
+	 * 注意：在BeanFactory中没有注册这样的默认类型，甚至BeanFactory接口也没有。
+	 * @param dependencyType 要注册的依赖项类型。 这通常是一个基本接口，例如BeanFactory，
+	 * 只要给定值实际实现扩展接口，如果声明为自动装配依赖（例如ListableBeanFactory），
+	 *它的扩展也会被解析。
+	 * @param autowiredValue 相应的自动装配值。
+	 * 这也可能是{@link org.springframework.beans.factory.ObjectFactory}接口的实现，它允许实际目标值的延迟解析。
 	 */
 	void registerResolvableDependency(Class<?> dependencyType, Object autowiredValue);
 
@@ -141,6 +152,7 @@ public interface ConfigurableListableBeanFactory
 	 * @see #registerSingleton
 	 * @see #getBeanNamesForType
 	 * @see #getBeanNamesForAnnotation
+	 * 获取所有的beanName
 	 */
 	Iterator<String> getBeanNamesIterator();
 

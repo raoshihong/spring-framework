@@ -20,14 +20,20 @@ package org.springframework.beans;
  * Interface to be implemented by bean metadata elements
  * that carry a configuration source object.
  *
+ * 由携带配置源对象的bean元数据元素实现的接口。
+ *
  * @author Juergen Hoeller
  * @since 2.0
+ *
+ * 用来获取一个Bean的元数据的
+ *
  */
 public interface BeanMetadataElement {
 
 	/**
 	 * Return the configuration source {@code Object} for this metadata element
 	 * (may be {@code null}).
+	 * 返回元数据的配置源
 	 */
 	Object getSource();
 
